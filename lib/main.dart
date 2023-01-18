@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'basic_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green, // warna app
         // textTheme: TextTheme(titleLarge: TextStyle(fontSize: 20)) .// theme tentang text (ukuran, font, warna text)
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Pages'),
+      home: const BasicScreen(),
     );
   }
 }
