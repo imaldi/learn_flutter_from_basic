@@ -13,21 +13,13 @@ class BasicScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Ini Body"),
-            Text("Ini Body"),
-            Container(
-                color: Colors.green,
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                margin: const EdgeInsets.all(16),
-                child: Text("Ini Body",
-                  style: TextStyle(color: Color(0xFF852222)),
-                )),
-            Container(
-                color: Colors.green,
-                padding: const EdgeInsets.all(16),
-                margin: const EdgeInsets.all(16),
+            Expanded(
+                flex: 2,
                 child: Text("Ini Body")),
-            Text("Ini Body"),
+            Expanded(
+                flex: 1,
+                child: Text("Ini Body")),
+            Flexible(child: Text("Ini Body")),
           ],
         ),
       ),
