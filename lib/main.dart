@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learn_flutter_from_basic/login_screen.dart';
 import 'package:learn_flutter_from_basic/register_screen.dart';
 
 import 'basic_screen.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green, // warna app
         // textTheme: TextTheme(titleLarge: TextStyle(fontSize: 20)) .// theme tentang text (ukuran, font, warna text)
       ),
-      home: const RegisterScreen(),
+      home: const LoginScreen(),
     );
   }
 }

@@ -107,16 +107,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        // if ((formKey.currentState?.validate() ?? false)) {
-                        //   setState(() {
-                        //     formKey.currentState?.save();
-                        //   });
-                        // }
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ),
-                        );
+                        if ((formKey.currentState?.validate() ?? false)) {
+                          setState(() {
+                            formKey.currentState?.save();
+                          });
+                        }
                       },
                       child: Text("Register")),
                   SizedBox(
