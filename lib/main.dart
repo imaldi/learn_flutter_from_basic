@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learn_flutter_from_basic/login_screen.dart';
-import 'package:learn_flutter_from_basic/register_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'basic_screen.dart';
 
@@ -8,10 +8,29 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  late final SharedPreferences prefs;
+  bool isUserHasLogin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((prefValue) => {
+      setState((){
+        isUserHasLogin = prefValue.getBool("isLogin") ?? false;
+        print("isUserHasLogin: $isUserHasLogin");
+      })
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp( // router =>
@@ -29,7 +48,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green, // warna app
         // textTheme: TextTheme(titleLarge: TextStyle(fontSize: 20)) .// theme tentang text (ukuran, font, warna text)
       ),
-      home: const LoginScreen(),
+      home: isUserHasLogin ? const BasicScreen() : const LoginScreen(),
     );
   }
 }

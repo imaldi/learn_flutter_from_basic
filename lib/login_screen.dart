@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:learn_flutter_from_basic/basic_screen.dart';
 import 'package:learn_flutter_from_basic/register_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const usernameData = "Aldi";
 const passwordData = "abc123";
@@ -18,6 +20,13 @@ class LoginScreenState extends State<LoginScreen> {
   bool isLoginSuccess = false;
   bool isUserHasTriedLogin = false;
   var formKey = GlobalKey<FormState>();
+
+  Future<void> setIsLogin() async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setBool("isLogin", isLoginSuccess);
+    var savedValue = prefs.getBool("isLogin");
+    print("savedValue: $savedValue");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,23 +96,31 @@ class LoginScreenState extends State<LoginScreen> {
                       height: 32,
                     ),
                     ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if ((formKey.currentState?.validate() ?? false)) {
+                            formKey.currentState?.save();
+
                             setState(() {
-                              formKey.currentState?.save();
                               isUserHasTriedLogin = true;
-                              if(username == usernameData && password == passwordData){
-                                isLoginSuccess = true;
-                              } else {
-                                isLoginSuccess = false;
-                              }
                             });
+
+                            if(username == usernameData && password == passwordData){
+                              setState((){
+                                isLoginSuccess = true;
+                              });
+                              await setIsLogin();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const BasicScreen(),
+                                ),
+                              );
+                            } else {
+                              setState((){
+                                isLoginSuccess = false;
+                              });
+                            }
                           }
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const LoginScreen(),
-                          //   ),
-                          // );
+
                         },
                         child: const Text("Login")),
                     const SizedBox(
