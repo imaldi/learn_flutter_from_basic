@@ -10,7 +10,6 @@ class BasicScreen extends StatefulWidget {
 }
 
 class _BasicScreenState extends State<BasicScreen> {
-
   // List<bool> listValueToDoIsDone = [
   //   false,
   //   false,
@@ -26,26 +25,31 @@ class _BasicScreenState extends State<BasicScreen> {
   // ];
 
   List<ToDo> listTodo = [
-    ToDo(false,"Mandi"),
-    ToDo(false,"Nyuci"),
-    ToDo(false,"Belajar"),
-    ToDo(false,"Tidur"),
+    ToDo(false, "Mandi"),
+    ToDo(false, "Nyuci"),
+    ToDo(false, "Belajar"),
+    ToDo(false, "Tidur"),
   ];
+  var inputController = TextEditingController();
 
   // 1. cara pertama cuma modal for dan function
-  List<Widget> widgetTodo(){
+  List<Widget> widgetTodo() {
     var listOfToDos = <Widget>[];
-    for(var i = 0; i < listTodo.length; i++){
-      listOfToDos.add(Row(
-        children: [
-          Checkbox(value: listTodo[i].isDone, onChanged: (val){
-            setState(() {
-              listTodo[i].isDone = !listTodo[i].isDone;
-            });
-          }),
-          Text(listTodo[i].task),
-        ],
-      ),);
+    for (var i = 0; i < listTodo.length; i++) {
+      listOfToDos.add(
+        Row(
+          children: [
+            Checkbox(
+                value: listTodo[i].isDone,
+                onChanged: (val) {
+                  setState(() {
+                    listTodo[i].isDone = !listTodo[i].isDone;
+                  });
+                }),
+            Text(listTodo[i].task),
+          ],
+        ),
+      );
     }
     return listOfToDos;
   }
@@ -56,9 +60,62 @@ class _BasicScreenState extends State<BasicScreen> {
       appBar: AppBar(
         title: Text("Basic Screen"),
       ),
-      body: Center(
-        child: Column(children: widgetTodo()
-          ,)
+      body: SingleChildScrollView( // ini dipakai karena kadang widget berupa list, melebihi tinggi dari layar
+        child: Center(
+          child:
+
+              /// ini komen dlu
+              // Column(children: widgetTodo()
+              //   ,)
+              // 2. dengan ListView.builder
+              Column(
+            children: [
+              ListView.builder(
+                  // ini dipakai untuk resolve bentrol Scrollable, karena Listview defaultnya sendiri bisa di scroll, tapi widget lain nggak,
+                  // jadi kadang widget lain kalau keluar layar ga bisa d scroll supaya kelihatan
+                  physics: const NeverScrollableScrollPhysics(),
+                  // ini untuk supaya ListView di dalam Column ga error (Karena kolom ga tau seberapa panjang listview ketika column di buat)
+                  scrollDirection: Axis.vertical,
+                  // ini untuk supaya ListView di dalam Column ga error (Karena kolom ga tau seberapa panjang listview ketika column di buat)
+                  shrinkWrap: true,
+                  // ini wajib biar dia tau mau berapa banyak item yang dia generate / build
+                  itemCount: listTodo.length,
+                  // ini widget yang di buat per Item dari List yg dia generate
+                  itemBuilder: (context, index) {
+                    return Row(
+                      children: [
+                        Checkbox(
+                            value: listTodo[index].isDone,
+                            onChanged: (val) {
+                              setState(() {
+                                listTodo[index].isDone = !listTodo[index].isDone;
+                              });
+                            }),
+                        Text(listTodo[index].task),
+                        GestureDetector(
+                            onTap: (){
+                              setState((){
+                                listTodo.removeAt(index);
+                              });
+                            },
+                            child: Icon(Icons.clear))
+                      ],
+                    );
+                  }),
+              Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TextFormField(
+                    controller: inputController,
+                    onEditingComplete: (){
+                      setState((){
+                        listTodo.add(ToDo(false,inputController.text)) ;
+                        inputController.text = "";
+                      });
+                    },
+                  )),
+            ],
+          ),
+        ),
       ),
     );
   }
