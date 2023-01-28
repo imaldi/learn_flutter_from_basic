@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:learn_flutter_from_basic/edit_item_screen.dart';
 
 import 'model/ToDo.dart';
 
 class BasicScreen extends StatefulWidget {
+
   const BasicScreen({Key? key}) : super(key: key);
 
   @override
@@ -91,14 +93,28 @@ class _BasicScreenState extends State<BasicScreen> {
                                 listTodo[index].isDone = !listTodo[index].isDone;
                               });
                             }),
-                        Text(listTodo[index].task),
-                        GestureDetector(
-                            onTap: (){
-                              setState((){
-                                listTodo.removeAt(index);
+                        Expanded(child: GestureDetector(
+                            onTap:() async {
+                              var newValue = await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => EditItemScreen(listTodo[index].task),
+                                ),
+                              );
+                              setState(() {
+                                listTodo[index].task = newValue;
                               });
                             },
-                            child: Icon(Icons.clear))
+                            child: Text(listTodo[index].task))),
+                        Container(
+                          margin: const EdgeInsets.only(right: 16),
+                          child: GestureDetector(
+                              onTap: (){
+                                setState((){
+                                  listTodo.removeAt(index);
+                                });
+                              },
+                              child: Icon(Icons.clear)),
+                        )
                       ],
                     );
                   }),
