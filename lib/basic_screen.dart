@@ -88,11 +88,11 @@ class _BasicScreenState extends State<BasicScreen> {
                               onTap:() async {
                                 var newValue = await Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => EditItemScreen(listTodo[index].task),
+                                    builder: (context) => EditItemScreen(listTodo[index]),
                                   ),
                                 );
                                 setState(() {
-                                  listTodo[index].task = newValue;
+                                  listTodo[index] = newValue;
                                 });
                               },
                               child: Column(
