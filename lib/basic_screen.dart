@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:learn_flutter_from_basic/edit_item_screen.dart';
 
 import 'model/ToDo.dart';
@@ -114,7 +115,17 @@ class _BasicScreenState extends State<BasicScreen> {
                                 });
                               },
                               child: Icon(Icons.clear)),
-                        )
+                        ),
+                        ElevatedButton(onPressed: () async {
+                          var theDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2020), lastDate: DateTime(2050));
+                          var theTime = await showTimePicker(context: context, initialTime: TimeOfDay.fromDateTime(DateTime.now()));
+                          var nonNullDate = theDate ?? DateTime.now();
+                          var nonNullTime = theTime ?? TimeOfDay.fromDateTime(DateTime.now());
+                          var dateWithTime = DateTime(nonNullDate.year,nonNullDate.month,nonNullDate.day,nonNullTime.hour,nonNullTime.minute);
+                          setState(() {
+                            listTodo[index].jadwal = dateWithTime;
+                          });
+                        }, child: Text((listTodo[index].jadwal == null ? "Pilih Tanggal" : DateFormat("dd - MMM - yyyy | HH:mm").format(listTodo[index].jadwal ?? DateTime.now())).toString() ))
                       ],
                     );
                   }),
