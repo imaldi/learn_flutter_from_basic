@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:learn_flutter_from_basic/edit_item_screen.dart';
+import 'package:learn_flutter_from_basic/presentation/widgets/tag_dropdown_button.dart';
 
-import 'model/ToDo.dart';
+import 'model/to_do.dart';
+
+const tagDropdownValues = [
+  "Chores",
+  "Fitness",
+  "Study",
+];
 
 class BasicScreen extends StatefulWidget {
 
@@ -35,27 +42,7 @@ class _BasicScreenState extends State<BasicScreen> {
   ];
   var inputController = TextEditingController();
 
-  // 1. cara pertama cuma modal for dan function
-  List<Widget> widgetTodo() {
-    var listOfToDos = <Widget>[];
-    for (var i = 0; i < listTodo.length; i++) {
-      listOfToDos.add(
-        Row(
-          children: [
-            Checkbox(
-                value: listTodo[i].isDone,
-                onChanged: (val) {
-                  setState(() {
-                    listTodo[i].isDone = !listTodo[i].isDone;
-                  });
-                }),
-            Text(listTodo[i].task),
-          ],
-        ),
-      );
-    }
-    return listOfToDos;
-  }
+  var selectedTag;
 
   @override
   Widget build(BuildContext context) {
@@ -85,60 +72,83 @@ class _BasicScreenState extends State<BasicScreen> {
                   itemCount: listTodo.length,
                   // ini widget yang di buat per Item dari List yg dia generate
                   itemBuilder: (context, index) {
-                    return Row(
-                      children: [
-                        Checkbox(
-                            value: listTodo[index].isDone,
-                            onChanged: (val) {
-                              setState(() {
-                                listTodo[index].isDone = !listTodo[index].isDone;
-                              });
-                            }),
-                        Expanded(child: GestureDetector(
-                            onTap:() async {
-                              var newValue = await Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => EditItemScreen(listTodo[index].task),
-                                ),
-                              );
-                              setState(() {
-                                listTodo[index].task = newValue;
-                              });
-                            },
-                            child: Text(listTodo[index].task))),
-                        Container(
-                          margin: const EdgeInsets.only(right: 16),
-                          child: GestureDetector(
-                              onTap: (){
-                                setState((){
-                                  listTodo.removeAt(index);
+                    return
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                        children: [
+                          Checkbox(
+                              value: listTodo[index].isDone,
+                              onChanged: (val) {
+                                setState(() {
+                                  listTodo[index].isDone = !listTodo[index].isDone;
+                                });
+                              }),
+                          Expanded(child: GestureDetector(
+                              onTap:() async {
+                                var newValue = await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => EditItemScreen(listTodo[index].task),
+                                  ),
+                                );
+                                setState(() {
+                                  listTodo[index].task = newValue;
                                 });
                               },
-                              child: Icon(Icons.clear)),
-                        ),
-                        ElevatedButton(onPressed: () async {
-                          var theDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2020), lastDate: DateTime(2050));
-                          var theTime = await showTimePicker(context: context, initialTime: TimeOfDay.fromDateTime(DateTime.now()));
-                          var nonNullDate = theDate ?? DateTime.now();
-                          var nonNullTime = theTime ?? TimeOfDay.fromDateTime(DateTime.now());
-                          var dateWithTime = DateTime(nonNullDate.year,nonNullDate.month,nonNullDate.day,nonNullTime.hour,nonNullTime.minute);
-                          setState(() {
-                            listTodo[index].jadwal = dateWithTime;
-                          });
-                        }, child: Text((listTodo[index].jadwal == null ? "Pilih Tanggal" : DateFormat("dd - MMM - yyyy | HH:mm").format(listTodo[index].jadwal ?? DateTime.now())).toString() ))
-                      ],
-                    );
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(listTodo[index].task),
+                                  Text("Tag: ${listTodo[index].tag ?? "-"}"),
+                                ],
+                              ))),
+                          ElevatedButton(onPressed: () async {
+                            var theDate = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2020), lastDate: DateTime(2050));
+                            var theTime = await showTimePicker(context: context, initialTime: TimeOfDay.fromDateTime(DateTime.now()));
+                            var nonNullDate = theDate ?? DateTime.now();
+                            var nonNullTime = theTime ?? TimeOfDay.fromDateTime(DateTime.now());
+                            var dateWithTime = DateTime(nonNullDate.year,nonNullDate.month,nonNullDate.day,nonNullTime.hour,nonNullTime.minute);
+                            setState(() {
+                              listTodo[index].jadwal = dateWithTime;
+                            });
+                          }, child: Text((listTodo[index].jadwal == null ? "Pilih Tanggal" : DateFormat("dd - MMM - yyyy \nHH:mm").format(listTodo[index].jadwal ?? DateTime.now())).toString() )),
+                          Container(
+                            margin: const EdgeInsets.only(right: 16, left: 16),
+                            child: GestureDetector(
+                                onTap: (){
+                                  setState((){
+                                    listTodo.removeAt(index);
+                                  });
+                                },
+                                child: Icon(Icons.clear)),
+                          ),
+                        ],
+                    ),
+                      );
                   }),
               Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TextFormField(
-                    controller: inputController,
-                    onEditingComplete: (){
-                      setState((){
-                        listTodo.add(ToDo(false,inputController.text)) ;
-                        inputController.text = "";
-                      });
-                    },
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: inputController,
+                      ),
+                      TagDropdownButton(
+                        selectedTag,
+                        callbackSetState: (valueFromInternal){
+                        setState(() {
+                          selectedTag = valueFromInternal;
+                        });
+                      },),
+                      ElevatedButton(onPressed: (){
+                        setState((){
+                          listTodo.add(ToDo(false,inputController.text,tag: selectedTag)) ;
+                          inputController.text = "";
+                          selectedTag = null;
+                          print("selectedTag $selectedTag");
+                        });
+                      }, child: Text("Add"))
+                    ],
                   )),
             ],
           ),
