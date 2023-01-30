@@ -34,6 +34,7 @@ class _BasicScreenState extends State<BasicScreen> {
   //   "Tidur",
   // ];
 
+  // ini namannya data hardcode
   List<ToDo> listTodo = [
     ToDo(false, "Mandi"),
     ToDo(false, "Nyuci"),

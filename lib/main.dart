@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learn_flutter_from_basic/login_screen.dart';
+import 'package:learn_flutter_from_basic/test_http_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'basic_screen.dart';
@@ -47,7 +48,9 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.green, // warna app
         // textTheme: TextTheme(titleLarge: TextStyle(fontSize: 20)) .// theme tentang text (ukuran, font, warna text)
       ),
-      home: isUserHasLogin ? const BasicScreen() : const LoginScreen(),
+      home:
+      const TestHttpScreen(),
+      // isUserHasLogin ? const BasicScreen() : const LoginScreen(),
     );
   }
 }
