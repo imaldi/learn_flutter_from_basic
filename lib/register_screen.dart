@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learn_flutter_from_basic/login_screen.dart';
+import 'package:learn_flutter_from_basic/service/user_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -22,6 +23,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var address = "";
   var phoneNumber = "";
   var formKey = GlobalKey<FormState>();
+  var userService = UserService();
+
+  @override
+  void initState() {
+    super.initState();
+    userService.init();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,14 +114,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 32,
                   ),
                   ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if ((formKey.currentState?.validate() ?? false)) {
                           setState(() {
                             formKey.currentState?.save();
                           });
+                          var isRegisterSuccess = await userService.createUser(
+                              username,
+                              password,
+                              email,
+                              nama,
+                              address,
+                              phoneNumber,
+                          );
+
+                          if(isRegisterSuccess == UserCreationResult.success){
+                            var user = await userService.authenticateUser(username, password);
+                            print("user: ${user?.name}");
+                            print("user: ${user?.userName}");
+                            print("user: ${user?.password}");
+                            print("user: ${user?.address}");
+                            print("user: ${user?.phoneNumber}");
+                          }
                         }
                       },
                       child: Text("Register")),
+                  ElevatedButton(
+                      onPressed: () async {
+                        await userService.removeAllUsers();
+                        print("Hapus seluruh user sukses");
+                      },
+                      child: Text("Hapus Seluruh User")),
                   SizedBox(
                     height: 32,
                   ),

@@ -4,7 +4,7 @@ import '../core/resource/consts/hive_box_names.dart';
 import '../model/user.dart';
 
 class UserService {
-  late Box<User> _users;
+  late Box<User?> _users;
 
   init() async {
     Hive.registerAdapter(UserAdapter());
@@ -15,22 +15,28 @@ class UserService {
   }
 
   /// Ini method untuk login user (cek apakah di Box Hive nya ada usernya atau nggak)
-  Future<String?> authenticateUser(final String username, final String password) async {
+  Future<User?> authenticateUser(final String username, final String password) async {
     // var listOfPeople = ["aldi","ipul","imam","aldi"];
     // var listAldi = listOfPeople.where((element) => element == "aldi").toList();
     // listOfPeople.any((element) => false);
-    final success = await _users.values.any((element) => element.userName == username && element.password == password);
-    if (success) {
-      return username;
-    } else {
+    final user = _users.values.firstWhere((element) => element?.userName == username && element?.password == password, orElse: (){
       return null;
-    }
+    });
+
+    return user;
   }
 
   /// Ini method untuk register user
-  Future<UserCreationResult> createUser(final String username, final String password) async {
+  Future<UserCreationResult> createUser(
+      final String username,
+      final String password,
+      final String email,
+      final String nama,
+      final String address,
+      final String phoneNumber,
+      ) async {
     final alreadyExists = _users.values.any(
-          (element) => element.userName?.toLowerCase() == username.toLowerCase(),
+          (element) => element?.userName?.toLowerCase() == username.toLowerCase(),
     );
 
     if (alreadyExists) {
@@ -38,11 +44,15 @@ class UserService {
     }
 
     try {
-      _users.add(User(userName: username, password: password));
+      _users.add(User(name: nama, userName: username, password: password, email: email, address: address, phoneNumber: phoneNumber));
       return UserCreationResult.success;
     } on Exception catch (ex) {
       return UserCreationResult.failure;
     }
+  }
+
+  Future<void> removeAllUsers() async {
+    await _users.clear();
   }
 }
 enum UserCreationResult { success, failure, already_exists }

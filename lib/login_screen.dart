@@ -82,7 +82,7 @@ class LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                           },
-                          child: Text(
+                          child: const Text(
                             "Daftar Disini.",
                             style: TextStyle(
                               color: Colors.blue,
@@ -128,10 +128,10 @@ class LoginScreenState extends State<LoginScreen> {
                     ),
                     Visibility(
                         visible: isUserHasTriedLogin && isLoginSuccess,
-                        child: Text("Login Berhasil")),
+                        child: const Text("Login Berhasil")),
                     Visibility(
                         visible: isUserHasTriedLogin && !isLoginSuccess,
-                        child: Text("Login Gagal"))
+                        child: const Text("Login Gagal"))
                   ],
                 ),
               ),

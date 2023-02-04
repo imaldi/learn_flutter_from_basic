@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:learn_flutter_from_basic/login_screen.dart';
+import 'package:learn_flutter_from_basic/register_screen.dart';
 import 'package:learn_flutter_from_basic/test_http_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'basic_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDir.path);
   runApp(const MyApp());
 }
 
@@ -49,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         // textTheme: TextTheme(titleLarge: TextStyle(fontSize: 20)) .// theme tentang text (ukuran, font, warna text)
       ),
       home:
-      const TestHttpScreen(),
+      const RegisterScreen(),
       // isUserHasLogin ? const BasicScreen() : const LoginScreen(),
     );
   }
