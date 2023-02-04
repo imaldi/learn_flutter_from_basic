@@ -36,10 +36,10 @@ class _BasicScreenState extends State<BasicScreen> {
 
   // ini namannya data hardcode
   List<ToDo> listTodo = [
-    ToDo(false, "Mandi"),
-    ToDo(false, "Nyuci"),
-    ToDo(false, "Belajar"),
-    ToDo(false, "Tidur"),
+    ToDo("Aldi", "Mandi"),
+    ToDo("Aldi", "Nyuci"),
+    ToDo("Aldi", "Belajar"),
+    ToDo("Aldi", "Tidur"),
   ];
   var inputController = TextEditingController();
 
@@ -143,7 +143,7 @@ class _BasicScreenState extends State<BasicScreen> {
                       },),
                       ElevatedButton(onPressed: (){
                         setState((){
-                          listTodo.add(ToDo(false,inputController.text,tag: selectedTag)) ;
+                          listTodo.add(ToDo("Aldi",inputController.text,tag: selectedTag)) ;
                           inputController.text = "";
                           selectedTag = null;
                           print("selectedTag $selectedTag");
