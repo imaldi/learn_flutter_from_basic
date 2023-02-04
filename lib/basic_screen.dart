@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:learn_flutter_from_basic/edit_item_screen.dart';
+import 'package:learn_flutter_from_basic/login_screen.dart';
 import 'package:learn_flutter_from_basic/presentation/widgets/tag_dropdown_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'model/to_do.dart';
 
@@ -50,6 +52,21 @@ class _BasicScreenState extends State<BasicScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Basic Screen"),
+        actions: [
+          InkWell(
+            onTap: () async {
+              SharedPreferences.getInstance().then((prefValue) async {
+                await prefValue.clear();
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+              }
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Icon(Icons.logout),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView( // ini dipakai karena kadang widget berupa list, melebihi tinggi dari layar
         child: Center(

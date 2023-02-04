@@ -6,8 +6,11 @@ import '../model/user.dart';
 class UserService {
   late Box<User?> _users;
 
+  UserService(){
+    init();
+  }
+
   init() async {
-    Hive.registerAdapter(UserAdapter());
     _users = await Hive.openBox(userBoxName);
 
     // await _users.add(User()..name = "Aldi" ..userName = "aim2u" ..email = "aldi@gmail.com" ..password = "abc123");

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:learn_flutter_from_basic/basic_screen.dart';
 import 'package:learn_flutter_from_basic/register_screen.dart';
+import 'package:learn_flutter_from_basic/service/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const usernameData = "Aldi";
-const passwordData = "abc123";
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -20,6 +19,8 @@ class LoginScreenState extends State<LoginScreen> {
   bool isLoginSuccess = false;
   bool isUserHasTriedLogin = false;
   var formKey = GlobalKey<FormState>();
+  var userService = UserService();
+
 
   Future<void> setIsLogin() async {
     var prefs = await SharedPreferences.getInstance();
@@ -104,7 +105,9 @@ class LoginScreenState extends State<LoginScreen> {
                               isUserHasTriedLogin = true;
                             });
 
-                            if(username == usernameData && password == passwordData){
+                            /// Logic authentication dengan hive
+                            var user = await userService.authenticateUser(username, password);
+                            if(user != null && user.userName == username && user.password == password){
                               setState((){
                                 isLoginSuccess = true;
                               });

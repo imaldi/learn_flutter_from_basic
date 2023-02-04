@@ -7,11 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'basic_screen.dart';
+import 'model/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
+  Hive.registerAdapter(UserAdapter());
+
   runApp(const MyApp());
 }
 
@@ -29,18 +32,19 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    SharedPreferences.getInstance().then((prefValue) => {
+    SharedPreferences.getInstance().then((prefValue) =>
       setState((){
         isUserHasLogin = prefValue.getBool("isLogin") ?? false;
         print("isUserHasLogin: $isUserHasLogin");
       })
-    });
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp( // router =>
       title: 'Flutter Demos',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -55,8 +59,8 @@ class _MyAppState extends State<MyApp> {
         // textTheme: TextTheme(titleLarge: TextStyle(fontSize: 20)) .// theme tentang text (ukuran, font, warna text)
       ),
       home:
-      const RegisterScreen(),
-      // isUserHasLogin ? const BasicScreen() : const LoginScreen(),
+      // const RegisterScreen(),
+      isUserHasLogin ? const BasicScreen() : const LoginScreen(),
     );
   }
 }

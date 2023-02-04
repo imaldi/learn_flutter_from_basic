@@ -28,7 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    userService.init();
+    // userService.init();
   }
 
   @override
