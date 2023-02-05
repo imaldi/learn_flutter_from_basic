@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:learn_flutter_from_basic/login_screen.dart';
-import 'package:learn_flutter_from_basic/register_screen.dart';
-import 'package:learn_flutter_from_basic/test_http_screen.dart';
+import 'package:learn_flutter_from_basic/presentation/screens/login/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
-import 'basic_screen.dart';
+import 'presentation/screens/basic_screen.dart';
 import 'model/user.dart';
 
 void main() async {

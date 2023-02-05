@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learn_flutter_from_basic/login_screen.dart';
+import 'package:learn_flutter_from_basic/presentation/screens/login/login_screen.dart';
 import 'package:learn_flutter_from_basic/service/user_service.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -131,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if(isRegisterSuccess == UserCreationResult.success){
                             var user = await userService.authenticateUser(username, password);
                             print("user: ${user?.name}");
-                            print("user: ${user?.userName}");
+                            print("user: ${user?.username}");
                             print("user: ${user?.password}");
                             print("user: ${user?.address}");
                             print("user: ${user?.phoneNumber}");

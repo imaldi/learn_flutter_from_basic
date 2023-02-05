@@ -13,8 +13,8 @@ class UserService {
   init() async {
     _users = await Hive.openBox(userBoxName);
 
-    // await _users.add(User()..name = "Aldi" ..userName = "aim2u" ..email = "aldi@gmail.com" ..password = "abc123");
-    // await _users.add(User()..name = "Ipul" ..userName = "ipoel" ..email = "ipul@gmail.com" ..password = "qwerty123");
+    // await _users.add(User()..name = "Aldi" ..username = "aim2u" ..email = "aldi@gmail.com" ..password = "abc123");
+    // await _users.add(User()..name = "Ipul" ..username = "ipoel" ..email = "ipul@gmail.com" ..password = "qwerty123");
   }
 
   /// Ini method untuk login user (cek apakah di Box Hive nya ada usernya atau nggak)
@@ -22,7 +22,7 @@ class UserService {
     // var listOfPeople = ["aldi","ipul","imam","aldi"];
     // var listAldi = listOfPeople.where((element) => element == "aldi").toList();
     // listOfPeople.any((element) => false);
-    final user = _users.values.firstWhere((element) => element?.userName == username && element?.password == password, orElse: (){
+    final user = _users.values.firstWhere((element) => element?.username == username && element?.password == password, orElse: (){
       return null;
     });
 
@@ -39,7 +39,7 @@ class UserService {
       final String phoneNumber,
       ) async {
     final alreadyExists = _users.values.any(
-          (element) => element?.userName?.toLowerCase() == username.toLowerCase(),
+          (element) => element?.username?.toLowerCase() == username.toLowerCase(),
     );
 
     if (alreadyExists) {
@@ -47,7 +47,7 @@ class UserService {
     }
 
     try {
-      _users.add(User(name: nama, userName: username, password: password, email: email, address: address, phoneNumber: phoneNumber));
+      _users.add(User(name: nama, username: username, password: password, email: email, address: address, phoneNumber: phoneNumber));
       return UserCreationResult.success;
     } on Exception catch (ex) {
       return UserCreationResult.failure;

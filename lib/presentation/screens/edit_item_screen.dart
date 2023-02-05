@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:learn_flutter_from_basic/basic_screen.dart';
+import 'package:learn_flutter_from_basic/presentation/screens/basic_screen.dart';
 import 'package:learn_flutter_from_basic/presentation/widgets/tag_dropdown_button.dart';
 
-import 'model/to_do.dart';
+import '../../model/to_do.dart';
 
 class EditItemScreen extends StatefulWidget {
   // final String textItem;

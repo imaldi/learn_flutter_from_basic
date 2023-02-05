@@ -11,7 +11,7 @@ class User extends HiveObject {
   @HiveField(0)
   String? name;
   @HiveField(1)
-  String? userName;
+  String? username;
   @HiveField(2)
   String? email;
   @HiveField(3)
@@ -20,5 +20,5 @@ class User extends HiveObject {
   String? address;
   @HiveField(5)
   String? phoneNumber;
-  User({this.name, this.userName, this.email, this.password, this.address,this.phoneNumber});
+  User({this.name, this.username, this.email, this.password, this.address,this.phoneNumber});
 }
