@@ -5,7 +5,7 @@ import 'package:learn_flutter_from_basic/presentation/screens/login/login_screen
 import 'package:learn_flutter_from_basic/presentation/widgets/tag_dropdown_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../model/to_do.dart';
+import '../../../model/to_do.dart';
 
 const tagDropdownValues = [
   "Chores",
