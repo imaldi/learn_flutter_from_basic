@@ -4,6 +4,7 @@ import 'package:learn_flutter_from_basic/presentation/screens/login_screen.dart'
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
+import 'model/to_do.dart';
 import 'presentation/screens/basic_screen.dart';
 import 'model/user.dart';
 
@@ -12,6 +13,8 @@ void main() async {
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
   Hive.registerAdapter(UserAdapter());
+  Hive.registerAdapter(ToDoAdapter());
+
 
   runApp(const MyApp());
 }

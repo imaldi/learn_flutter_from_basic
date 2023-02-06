@@ -10,7 +10,6 @@ class TodoService {
   // }
 
   Future<void> init() async {
-    Hive.registerAdapter(ToDoAdapter());
     _tasks = await Hive.openBox<ToDo>('tasks');
 
     // await _tasks.clear();
@@ -20,7 +19,10 @@ class TodoService {
   }
 
   /// Create Task
-  void addTask(final ToDo task) async {
+  Future<void> addTask(final ToDo task) async {
+    print("Task is: ${task.task}");
+    print("Task is: ${task.username}");
+    print("Task is: ${task.tag}");
     await _tasks.add(task);
   }
 

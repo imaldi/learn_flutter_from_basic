@@ -86,6 +86,9 @@ class _BasicScreenState extends State<BasicScreen> {
                 if (state is DoneInitToDoService) {
                   context.read<ToDoBloc>().add(ReadToDo());
                 }
+                if (state is SuccessCreateTodo) {
+                  context.read<ToDoBloc>().add(ReadToDo());
+                }
               },
               builder: (context, state) {
                 print("Sekarang Statenya apa? ${state.runtimeType}");
@@ -210,10 +213,14 @@ class _BasicScreenState extends State<BasicScreen> {
                               ),
                               ElevatedButton(
                                   onPressed: () {
+                                    var todoBloc = context.read<ToDoBloc>();
+                                    todoBloc.add(CreateToDo(ToDo(
+                                        "Aldi", inputController.text,
+                                        tag: selectedTag)));
                                     setState(() {
-                                      listTodo.add(ToDo(
-                                          "Aldi", inputController.text,
-                                          tag: selectedTag));
+                                      // listTodo.add(ToDo(
+                                      //     "Aldi", inputController.text,
+                                      //     tag: selectedTag));
                                       inputController.text = "";
                                       selectedTag = null;
                                       print("selectedTag $selectedTag");

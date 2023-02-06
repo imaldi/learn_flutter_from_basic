@@ -19,7 +19,10 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
     });
     on<CreateToDo>((event, emit) async {
       emit(LoadingTodo());
-      todoService.addTask(event.task);
+      var prefs = await SharedPreferences.getInstance();
+      var username = prefs.getString("username") ?? "Guest";
+      var newTask = ToDo(event.task.task,username,tag: event.task.tag!);
+      await todoService.addTask(newTask);
       emit(SuccessCreateTodo());
     });
     on<ReadToDo>((event, emit) async {
