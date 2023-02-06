@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../model/to_do.dart';
 import '../../../../service/todo_service.dart';
@@ -12,6 +13,11 @@ part 'to_do_state.dart';
 class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
   TodoService todoService;
   ToDoBloc(this.todoService) : super(ToDoInitial()) {
+
+    on<InitToDoService>((event, emit) async {
+      await todoService.init();
+      emit(DoneInitToDoService());
+    });
     on<CreateToDo>((event, emit) async {
       emit(LoadingTodo());
       todoService.addTask(event.task);
@@ -19,12 +25,15 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
     });
     on<ReadToDo>((event, emit) async {
       emit(LoadingTodo());
-      var todoList = await todoService.getTasks(event.username);
+
+      var prefs = await SharedPreferences.getInstance();
+      var username = prefs.getString("username") ?? "Guest";
+      var todoList = await todoService.getTasks(username);
       emit(SuccesFetchTodoList(todoList));
     });
     on<UpdateToDo>((event, emit)async {
       emit(LoadingTodo());
-      var todoList = await todoService.updateTask(event.oldTask, event.newTask);
+      await todoService.updateTask(event.oldTask, event.newTask);
       emit(SuccessUpdateTodo());
     });
     on<DeleteToDo>((event, emit)async {

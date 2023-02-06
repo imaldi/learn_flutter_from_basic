@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:learn_flutter_from_basic/presentation/screens/todo/basic_screen.dart';
+import 'package:learn_flutter_from_basic/presentation/screens/basic_screen.dart';
 import 'package:learn_flutter_from_basic/presentation/screens/register_screen.dart';
 import 'package:learn_flutter_from_basic/service/user_service.dart';
 
-import 'blocs/login_bloc.dart';
+import '../state_managements/blocs/login_blocs/login_bloc.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

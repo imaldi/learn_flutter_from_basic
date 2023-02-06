@@ -4,6 +4,11 @@ import 'package:learn_flutter_from_basic/model/to_do.dart';
 class TodoService {
   late Box<ToDo> _tasks;
 
+  // Constructor can not call Future Code
+  // TodoService(){
+  //   init();
+  // }
+
   Future<void> init() async {
     Hive.registerAdapter(ToDoAdapter());
     _tasks = await Hive.openBox<ToDo>('tasks');

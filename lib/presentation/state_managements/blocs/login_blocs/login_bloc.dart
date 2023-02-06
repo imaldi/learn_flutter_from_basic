@@ -19,7 +19,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       var user = await userService.authenticateUser(event.username, event.password);
       if(user != null){
         var prefs = await SharedPreferences.getInstance();
-        prefs.setBool("isLogin", true);
+        prefs
+          ..setBool("isLogin", true)
+          ..setString("username", user.username);
         var savedValue = prefs.getBool("isLogin");
         print("savedValue: $savedValue");
         emit(LoginSuccess(user));

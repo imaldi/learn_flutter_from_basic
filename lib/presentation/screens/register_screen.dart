@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:learn_flutter_from_basic/presentation/screens/login/login_screen.dart';
+import 'package:learn_flutter_from_basic/presentation/screens/login_screen.dart';
 import 'package:learn_flutter_from_basic/service/user_service.dart';
 
 class RegisterScreen extends StatefulWidget {

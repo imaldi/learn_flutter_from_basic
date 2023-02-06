@@ -4,6 +4,11 @@ abstract class ToDoEvent extends Equatable {
   const ToDoEvent();
 }
 
+class InitToDoService extends ToDoEvent {
+  @override
+  List<Object?> get props => [];
+
+}
 class CreateToDo extends ToDoEvent {
   ToDo task;
   CreateToDo(this.task);
@@ -11,10 +16,9 @@ class CreateToDo extends ToDoEvent {
   List<Object?> get props => [task];
 }
 class ReadToDo extends ToDoEvent {
-  String username;
-  ReadToDo(this.username);
+  ReadToDo();
   @override
-  List<Object?> get props => [username];
+  List<Object?> get props => [];
 }
 class UpdateToDo extends ToDoEvent {
   ToDo oldTask;

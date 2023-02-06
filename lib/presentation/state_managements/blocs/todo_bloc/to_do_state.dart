@@ -65,3 +65,9 @@ class FailedDeleteTodo extends ToDoState {
   @override
   List<Object> get props => [];
 }
+
+class DoneInitToDoService extends ToDoState {
+  @override
+  List<Object?> get props => [];
+
+}
