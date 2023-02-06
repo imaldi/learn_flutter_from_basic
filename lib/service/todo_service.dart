@@ -32,7 +32,8 @@ class TodoService {
 
   /// Update Task
   Future<void> updateTask(final ToDo oldTask, final ToDo newTask) async {
-    final taskToEdit = _tasks.values.firstWhere((element) => element == oldTask);
+    final taskToEdit =
+        _tasks.values.firstWhere((element) => element == oldTask);
     final index = taskToEdit.key as int;
     await _tasks.put(index, newTask);
   }

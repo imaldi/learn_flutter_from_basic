@@ -120,16 +120,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             formKey.currentState?.save();
                           });
                           var isRegisterSuccess = await userService.createUser(
-                              username,
-                              password,
-                              email,
-                              nama,
-                              address,
-                              phoneNumber,
+                            username,
+                            password,
+                            email,
+                            nama,
+                            address,
+                            phoneNumber,
                           );
 
-                          if(isRegisterSuccess == UserCreationResult.success){
-                            var user = await userService.authenticateUser(username, password);
+                          if (isRegisterSuccess == UserCreationResult.success) {
+                            var user = await userService.authenticateUser(
+                                username, password);
                             print("user: ${user?.name}");
                             print("user: ${user?.username}");
                             print("user: ${user?.password}");

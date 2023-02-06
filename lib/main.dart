@@ -30,17 +30,16 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    SharedPreferences.getInstance().then((prefValue) =>
-      setState((){
-        isUserHasLogin = prefValue.getBool("isLogin") ?? false;
-        print("isUserHasLogin: $isUserHasLogin");
-      })
-    );
+    SharedPreferences.getInstance().then((prefValue) => setState(() {
+          isUserHasLogin = prefValue.getBool("isLogin") ?? false;
+          print("isUserHasLogin: $isUserHasLogin");
+        }));
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp( // router =>
+    return MaterialApp(
+      // router =>
       title: 'Flutter Demos',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -57,8 +56,8 @@ class _MyAppState extends State<MyApp> {
         // textTheme: TextTheme(titleLarge: TextStyle(fontSize: 20)) .// theme tentang text (ukuran, font, warna text)
       ),
       home:
-      // const RegisterScreen(),
-      isUserHasLogin ? const BasicScreen() : const LoginScreen(),
+          // const RegisterScreen(),
+          isUserHasLogin ? const BasicScreen() : const LoginScreen(),
     );
   }
 }
@@ -93,7 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-
     });
   }
 

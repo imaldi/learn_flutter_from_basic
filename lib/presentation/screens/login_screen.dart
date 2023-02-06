@@ -6,7 +6,6 @@ import 'package:learn_flutter_from_basic/service/user_service.dart';
 
 import '../state_managements/blocs/login_blocs/login_bloc.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -23,7 +22,8 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider( /// menyediakan / mengintegrasikan blocc kedalam widget flutter supaya di gunakan
+    return BlocProvider(
+      /// menyediakan / mengintegrasikan blocc kedalam widget flutter supaya di gunakan
       create: (context) => LoginBloc(userService: UserService()),
       child: SafeArea(
         child: Scaffold(
@@ -51,8 +51,8 @@ class LoginScreenState extends State<LoginScreen> {
                           username = usernameController.text;
                           usernameController.text = "";
                         },
-                        decoration: const InputDecoration(label: Text(
-                            "Username")),
+                        decoration:
+                            const InputDecoration(label: Text("Username")),
                       ),
                       TextFormField(
                         controller: passwordController,
@@ -61,8 +61,8 @@ class LoginScreenState extends State<LoginScreen> {
                           password = passwordController.text;
                           passwordController.text = "";
                         },
-                        decoration: const InputDecoration(label: Text(
-                            "Password")),
+                        decoration:
+                            const InputDecoration(label: Text("Password")),
                       ),
                       const SizedBox(
                         height: 32,
@@ -92,13 +92,13 @@ class LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 32,
                       ),
-                      BlocConsumer<LoginBloc, LoginState>( // supaya widget nya berubah, sesuai dengan value state dari blocc
-                        listener: (context, state){
-                          if(state is LoginSuccess){
+                      BlocConsumer<LoginBloc, LoginState>(
+                        // supaya widget nya berubah, sesuai dengan value state dari blocc
+                        listener: (context, state) {
+                          if (state is LoginSuccess) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (
-                                    context) => const BasicScreen(),
+                                builder: (context) => const BasicScreen(),
                               ),
                             );
                           }
@@ -107,7 +107,7 @@ class LoginScreenState extends State<LoginScreen> {
                         builder: (context, state) {
                           // mengakses bloc yang sudah disediakan oleh widget BlocProvider
                           var loginBloc = context.read<LoginBloc>();
-                          if(state is LoginLoading){
+                          if (state is LoginLoading) {
                             return Column(
                               children: const [
                                 ElevatedButton(
@@ -120,7 +120,7 @@ class LoginScreenState extends State<LoginScreen> {
                               ],
                             );
                           }
-                          if(state is LoginSuccess){
+                          if (state is LoginSuccess) {
                             return Column(
                               children: [
                                 ElevatedButton(
@@ -130,7 +130,8 @@ class LoginScreenState extends State<LoginScreen> {
                                         formKey.currentState?.save();
 
                                         /// Logic authentication dengan hive
-                                        loginBloc.add(UserLoginEvent(username, password));
+                                        loginBloc.add(
+                                            UserLoginEvent(username, password));
                                       }
                                     },
                                     child: const Text("Login")),
@@ -141,7 +142,7 @@ class LoginScreenState extends State<LoginScreen> {
                               ],
                             );
                           }
-                          if(state is LoginFailed){
+                          if (state is LoginFailed) {
                             return Column(
                               children: [
                                 ElevatedButton(
@@ -151,7 +152,8 @@ class LoginScreenState extends State<LoginScreen> {
                                         formKey.currentState?.save();
 
                                         /// Logic authentication dengan hive
-                                        loginBloc.add(UserLoginEvent(username, password));
+                                        loginBloc.add(
+                                            UserLoginEvent(username, password));
                                       }
                                     },
                                     child: const Text("Login")),
@@ -169,7 +171,8 @@ class LoginScreenState extends State<LoginScreen> {
                                   formKey.currentState?.save();
 
                                   /// Logic authentication dengan hive
-                                  loginBloc.add(UserLoginEvent(username, password));
+                                  loginBloc
+                                      .add(UserLoginEvent(username, password));
                                 }
                               },
                               child: const Text("Login"));

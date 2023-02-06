@@ -15,10 +15,12 @@ class LoginSuccess extends LoginState {
   @override
   List<Object?> get props => [user];
 }
+
 class LoginFailed extends LoginState {
   @override
   List<Object?> get props => [];
 }
+
 class LoginLoading extends LoginState {
   @override
   List<Object?> get props => [];

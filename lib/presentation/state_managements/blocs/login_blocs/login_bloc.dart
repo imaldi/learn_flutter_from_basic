@@ -16,8 +16,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginLoading());
       await Future.delayed(Duration(seconds: 1));
       // TODO: implement call authentication service
-      var user = await userService.authenticateUser(event.username, event.password);
-      if(user != null){
+      var user =
+          await userService.authenticateUser(event.username, event.password);
+      if (user != null) {
         var prefs = await SharedPreferences.getInstance();
         prefs
           ..setBool("isLogin", true)

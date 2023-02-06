@@ -12,7 +12,6 @@ class ToDoInitial extends ToDoState {
 class LoadingTodo extends ToDoState {
   @override
   List<Object?> get props => [];
-
 }
 
 class SuccesFetchTodoList extends ToDoState {
@@ -46,7 +45,6 @@ class SuccessUpdateTodo extends ToDoState {
   List<Object> get props => [];
 }
 
-
 class FailedUpdateTodo extends ToDoState {
   const FailedUpdateTodo();
   @override
@@ -59,7 +57,6 @@ class SuccessDeleteTodo extends ToDoState {
   List<Object> get props => [];
 }
 
-
 class FailedDeleteTodo extends ToDoState {
   const FailedDeleteTodo();
   @override
@@ -69,5 +66,4 @@ class FailedDeleteTodo extends ToDoState {
 class DoneInitToDoService extends ToDoState {
   @override
   List<Object?> get props => [];
-
 }

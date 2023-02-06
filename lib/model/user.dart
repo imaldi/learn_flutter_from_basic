@@ -2,8 +2,6 @@ import 'package:hive/hive.dart';
 
 import '../core/resource/consts/hive_type.dart';
 
-
-
 part 'user.g.dart';
 
 @HiveType(typeId: userTypeId)
@@ -20,5 +18,11 @@ class User extends HiveObject {
   String? address;
   @HiveField(5)
   String? phoneNumber;
-  User({this.name,  required this.username, this.email,  required this.password, this.address,this.phoneNumber});
+  User(
+      {this.name,
+      required this.username,
+      this.email,
+      required this.password,
+      this.address,
+      this.phoneNumber});
 }

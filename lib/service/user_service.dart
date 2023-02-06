@@ -6,7 +6,7 @@ import '../model/user.dart';
 class UserService {
   late Box<User?> _users;
 
-  UserService(){
+  UserService() {
     init();
   }
 
@@ -18,11 +18,15 @@ class UserService {
   }
 
   /// Ini method untuk login user (cek apakah di Box Hive nya ada usernya atau nggak)
-  Future<User?> authenticateUser(final String username, final String password) async {
+  Future<User?> authenticateUser(
+      final String username, final String password) async {
     // var listOfPeople = ["aldi","ipul","imam","aldi"];
     // var listAldi = listOfPeople.where((element) => element == "aldi").toList();
     // listOfPeople.any((element) => false);
-    final user = _users.values.firstWhere((element) => element?.username == username && element?.password == password, orElse: (){
+    final user = _users.values.firstWhere(
+        (element) =>
+            element?.username == username && element?.password == password,
+        orElse: () {
       return null;
     });
 
@@ -31,15 +35,15 @@ class UserService {
 
   /// Ini method untuk register user
   Future<UserCreationResult> createUser(
-      final String username,
-      final String password,
-      final String email,
-      final String nama,
-      final String address,
-      final String phoneNumber,
-      ) async {
+    final String username,
+    final String password,
+    final String email,
+    final String nama,
+    final String address,
+    final String phoneNumber,
+  ) async {
     final alreadyExists = _users.values.any(
-          (element) => element?.username?.toLowerCase() == username.toLowerCase(),
+      (element) => element?.username?.toLowerCase() == username.toLowerCase(),
     );
 
     if (alreadyExists) {
@@ -47,7 +51,13 @@ class UserService {
     }
 
     try {
-      _users.add(User(name: nama, username: username, password: password, email: email, address: address, phoneNumber: phoneNumber));
+      _users.add(User(
+          name: nama,
+          username: username,
+          password: password,
+          email: email,
+          address: address,
+          phoneNumber: phoneNumber));
       return UserCreationResult.success;
     } on Exception catch (ex) {
       return UserCreationResult.failure;
@@ -58,4 +68,5 @@ class UserService {
     await _users.clear();
   }
 }
+
 enum UserCreationResult { success, failure, already_exists }

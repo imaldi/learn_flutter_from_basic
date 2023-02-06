@@ -82,20 +82,20 @@ class _BasicScreenState extends State<BasicScreen> {
                 //   ,)
                 // 2. dengan ListView.builder
                 BlocConsumer<ToDoBloc, ToDoState>(
-                  listener: (context,state){
-                    if(state is DoneInitToDoService){
-                      context.read<ToDoBloc>().add(ReadToDo());
-                    }
-                  },
+              listener: (context, state) {
+                if (state is DoneInitToDoService) {
+                  context.read<ToDoBloc>().add(ReadToDo());
+                }
+              },
               builder: (context, state) {
-                    print("Sekarang Statenya apa? ${state.runtimeType}");
-                if(state is SuccesFetchTodoList){
+                print("Sekarang Statenya apa? ${state.runtimeType}");
+                if (state is SuccesFetchTodoList) {
                   var listTodo = state.todoList;
                   return Column(
                     children: [
                       ListView.builder(
-                        // ini dipakai untuk resolve bentrol Scrollable, karena Listview defaultnya sendiri bisa di scroll, tapi widget lain nggak,
-                        // jadi kadang widget lain kalau keluar layar ga bisa d scroll supaya kelihatan
+                          // ini dipakai untuk resolve bentrol Scrollable, karena Listview defaultnya sendiri bisa di scroll, tapi widget lain nggak,
+                          // jadi kadang widget lain kalau keluar layar ga bisa d scroll supaya kelihatan
                           physics: const NeverScrollableScrollPhysics(),
                           // ini untuk supaya ListView di dalam Column ga error (Karena kolom ga tau seberapa panjang listview ketika column di buat)
                           scrollDirection: Axis.vertical,
@@ -114,14 +114,15 @@ class _BasicScreenState extends State<BasicScreen> {
                                       onChanged: (val) {
                                         setState(() {
                                           listTodo[index].isDone =
-                                          !listTodo[index].isDone;
+                                              !listTodo[index].isDone;
                                         });
                                       }),
                                   Expanded(
                                       child: GestureDetector(
                                           onTap: () async {
                                             var newValue =
-                                            await Navigator.of(context).push(
+                                                await Navigator.of(context)
+                                                    .push(
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     EditItemScreen(
@@ -134,7 +135,7 @@ class _BasicScreenState extends State<BasicScreen> {
                                           },
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(listTodo[index].task),
                                               Text(
@@ -167,13 +168,14 @@ class _BasicScreenState extends State<BasicScreen> {
                                           listTodo[index].jadwal = dateWithTime;
                                         });
                                       },
-                                      child: Text((listTodo[index].jadwal == null
-                                          ? "Pilih Tanggal"
-                                          : DateFormat(
-                                          "dd - MMM - yyyy \nHH:mm")
-                                          .format(
-                                          listTodo[index].jadwal ??
-                                              DateTime.now()))
+                                      child: Text((listTodo[index].jadwal ==
+                                                  null
+                                              ? "Pilih Tanggal"
+                                              : DateFormat(
+                                                      "dd - MMM - yyyy \nHH:mm")
+                                                  .format(
+                                                      listTodo[index].jadwal ??
+                                                          DateTime.now()))
                                           .toString())),
                                   Container(
                                     margin: const EdgeInsets.only(
@@ -223,8 +225,10 @@ class _BasicScreenState extends State<BasicScreen> {
                     ],
                   );
                 }
-                if(state is LoadingTodo){
-                  return const Center(child: CircularProgressIndicator(),);
+                if (state is LoadingTodo) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
                 return Container();
               },

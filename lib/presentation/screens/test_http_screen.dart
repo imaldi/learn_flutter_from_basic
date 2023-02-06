@@ -51,7 +51,8 @@ class _TestHttpScreenState extends State<TestHttpScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Nama: ${snapshot.data?.name ?? "Failed"}"),
-                    Text("Species: ${snapshot.data?.species?.name ?? "Failed"}"),
+                    Text(
+                        "Species: ${snapshot.data?.species?.name ?? "Failed"}"),
                     Text("Height: ${snapshot.data?.height ?? "Failed"}"),
                   ],
                 ),
