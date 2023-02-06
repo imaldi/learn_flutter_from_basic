@@ -89,8 +89,15 @@ class _BasicScreenState extends State<BasicScreen> {
                 if (state is SuccessCreateTodo) {
                   context.read<ToDoBloc>().add(ReadToDo());
                 }
+                if (state is SuccessUpdateTodo) {
+                  context.read<ToDoBloc>().add(ReadToDo());
+                }
+                if (state is SuccessDeleteTodo) {
+                  context.read<ToDoBloc>().add(ReadToDo());
+                }
               },
               builder: (context, state) {
+                var todoBloc = context.read<ToDoBloc>();
                 print("Sekarang Statenya apa? ${state.runtimeType}");
                 if (state is SuccesFetchTodoList) {
                   var listTodo = state.todoList;
@@ -108,6 +115,7 @@ class _BasicScreenState extends State<BasicScreen> {
                           itemCount: listTodo.length,
                           // ini widget yang di buat per Item dari List yg dia generate
                           itemBuilder: (context, index) {
+                            var currentTodo = listTodo[index];
                             return Container(
                               margin: EdgeInsets.symmetric(vertical: 8),
                               child: Row(
@@ -115,10 +123,17 @@ class _BasicScreenState extends State<BasicScreen> {
                                   Checkbox(
                                       value: listTodo[index].isDone,
                                       onChanged: (val) {
-                                        setState(() {
-                                          listTodo[index].isDone =
-                                              !listTodo[index].isDone;
-                                        });
+                                        context.read<ToDoBloc>().add(UpdateToDo(
+                                            listTodo[index],
+                                            ToDo(currentTodo.task,
+                                                currentTodo.username,
+                                                tag: currentTodo.tag,
+                                                isDone: !currentTodo.isDone,
+                                                jadwal: currentTodo.jadwal)));
+                                        // setState(() {
+                                        //   listTodo[index].isDone =
+                                        //       !listTodo[index].isDone;
+                                        // });
                                       }),
                                   Expanded(
                                       child: GestureDetector(
@@ -128,8 +143,12 @@ class _BasicScreenState extends State<BasicScreen> {
                                                     .push(
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    EditItemScreen(
-                                                        listTodo[index]),
+                                                    BlocProvider.value(
+                                                  value:
+                                                  todoBloc,
+                                                  child: EditItemScreen(
+                                                      listTodo[index]),
+                                                ),
                                               ),
                                             );
                                             setState(() {
@@ -147,6 +166,7 @@ class _BasicScreenState extends State<BasicScreen> {
                                           ))),
                                   ElevatedButton(
                                       onPressed: () async {
+                                        var todoBloc = context.read<ToDoBloc>();
                                         var theDate = await showDatePicker(
                                             context: context,
                                             initialDate: DateTime.now(),
@@ -167,9 +187,16 @@ class _BasicScreenState extends State<BasicScreen> {
                                             nonNullDate.day,
                                             nonNullTime.hour,
                                             nonNullTime.minute);
-                                        setState(() {
-                                          listTodo[index].jadwal = dateWithTime;
-                                        });
+                                        todoBloc.add(UpdateToDo(
+                                            listTodo[index],
+                                            ToDo(currentTodo.task,
+                                                currentTodo.username,
+                                                tag: currentTodo.tag,
+                                                isDone: currentTodo.isDone,
+                                                jadwal: dateWithTime)));
+                                        // setState(() {
+                                        //   listTodo[index].jadwal = dateWithTime;
+                                        // });
                                       },
                                       child: Text((listTodo[index].jadwal ==
                                                   null
@@ -185,6 +212,9 @@ class _BasicScreenState extends State<BasicScreen> {
                                         right: 16, left: 16),
                                     child: GestureDetector(
                                         onTap: () {
+                                          context
+                                              .read<ToDoBloc>()
+                                              .add(DeleteToDo(currentTodo));
                                           setState(() {
                                             listTodo.removeAt(index);
                                           });
@@ -215,7 +245,7 @@ class _BasicScreenState extends State<BasicScreen> {
                                   onPressed: () {
                                     var todoBloc = context.read<ToDoBloc>();
                                     todoBloc.add(CreateToDo(ToDo(
-                                        "Aldi", inputController.text,
+                                        inputController.text, "-",
                                         tag: selectedTag)));
                                     setState(() {
                                       // listTodo.add(ToDo(

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:learn_flutter_from_basic/presentation/screens/basic_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learn_flutter_from_basic/presentation/widgets/tag_dropdown_button.dart';
 
 import '../../model/to_do.dart';
+import '../state_managements/blocs/todo_bloc/to_do_bloc.dart';
 
 class EditItemScreen extends StatefulWidget {
   // final String textItem;
   final ToDo theTask;
+
   const EditItemScreen(this.theTask, {Key? key}) : super(key: key);
 
   @override
@@ -16,6 +18,7 @@ class EditItemScreen extends StatefulWidget {
 class _EditItemScreenState extends State<EditItemScreen> {
   late var controller;
   var selectedTag;
+
   @override
   void initState() {
     super.initState();
@@ -49,17 +52,29 @@ class _EditItemScreenState extends State<EditItemScreen> {
                 });
               },
             ),
-            ElevatedButton(
-                onPressed: () {
-                  var newTask = widget.theTask;
-                  newTask.task = controller.text;
-                  newTask.tag = selectedTag;
-                  Navigator.of(context).pop(newTask);
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //   builder: (context) => BasicScreen(textItem: controller.text),
-                  // ));
-                },
-                child: Text("Update"))
+            BlocBuilder<ToDoBloc, ToDoState>(
+              builder: (context, state) {
+                var todoBloc = context.read<ToDoBloc>();
+                return ElevatedButton(
+                    onPressed: () {
+                      var currentTodo = widget.theTask;
+                      todoBloc.add(UpdateToDo(widget.theTask, ToDo(
+                          controller.text,
+                          currentTodo.username,
+                          tag: selectedTag,
+                          isDone: currentTodo.isDone,
+                          jadwal: currentTodo.jadwal)));
+                      // var newTask = widget.theTask;
+                      // newTask.task = controller.text;
+                      // newTask.tag = selectedTag;
+                      Navigator.of(context).pop();
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //   builder: (context) => BasicScreen(textItem: controller.text),
+                      // ));
+                    },
+                    child: Text("Update"));
+              },
+            )
           ],
         ),
         // Text("Value dari halaman sebelumnya: ${widget.textItem}"),

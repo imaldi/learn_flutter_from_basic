@@ -34,13 +34,13 @@ class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
       emit(SuccesFetchTodoList(todoList));
     });
     on<UpdateToDo>((event, emit) async {
-      emit(LoadingTodo());
+      // emit(LoadingTodo());
       await todoService.updateTask(event.oldTask, event.newTask);
       emit(SuccessUpdateTodo());
     });
     on<DeleteToDo>((event, emit) async {
       emit(LoadingTodo());
-      var todoList = await todoService.removeTask(event.task);
+      await todoService.removeTask(event.task);
       emit(SuccessDeleteTodo());
     });
   }
